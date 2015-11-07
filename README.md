@@ -11,3 +11,13 @@ Bellow I will put what in my mind :-)
 * Only proxy, with basic access control. With the map configuration will be possible to specifier what can be accessed and what cannot.
 * Proxy + cache
 * Transparent caching proxy
+
+# Doubts
+* Is possible one cache system reaches the goals of the three versions above?
+* Reverse proxy is basically a proxy cache that access only local content?
+* Where (and how) the URL could be rewritten?
+* How NGX define domain's rules and resources' rules?
+* Log manager/statistics: is a good idea uses the same approach that varnish? Or it must be considered an improvement?
+* For implement BDD, Must be used Python+Lettuce? Or is better to try a BDD framework specific for Golang? Or there is another approach?
+* Is a good idea to have more than one option to do the storage, log, and so on?
+  * Maybe, based in the config, I can rewrite some code to use a specific storage backend, log system, … With this approach, this project can be used like a framework to construct a personalized proxy cache system :-)
