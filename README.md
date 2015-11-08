@@ -53,3 +53,14 @@ Bellow I will put what in my mind :-)
 * Varnish tools are valuable? It's funny to implement, but they are useful?
   * varnishlog, varnish top, varnishhist, varnishstat
 * purge?
+
+
+# Sample config
+    .*.youtube.com:	pass
+    aabbcc.*		pass
+    abcxy.br		-> 192.168.1.2 // proxy
+    // Is it a good approach? Maybe, using a module would be more interesting, but how can I integrate this on the config? Well, a NGX's module can register your tokens in configuration…
+    .*			fail // proxy reverso
+    .*			accept // proxy ou proxy cache
+
+Future, in this config, I can put cache parameters (global and per rule), TTL, ...
