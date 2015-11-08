@@ -64,3 +64,18 @@ Bellow I will put what in my mind :-)
     .*			accept // proxy ou proxy cache
 
 Future, in this config, I can put cache parameters (global and per rule), TTL, ...
+
+
+# Proxy architecture
+
+Components:
+* Config manager: Responsible for read the configuration, generate the sources, compile and build the new binary;
+* Startup ou Setup Manager: Responsible for Load the plugins (or they will be together with the binary?), network setup (bind, listen);
+* Requests manager: Responsible for accept the requests, read them, match and validate in the config, hit/read or miss/fetch, send to modules' pipeline, save in storage, send to downstream;
+* Permanent log manager;
+* Object manager: Responsible for keep the object's' index in memory to provide a fast search (hit or miss?);
+* Storage manager: Responsible for save and load the objects. Is possible to have a lot of storage managers like, for example, memory storage, fdd storage, ssd storage, MMAP version, one file per object, one file with a lot of objects, … And, in some cases, the objects are unique in the storages, but in other cases the objects can be duplicated (for fast retrieve);
+* Evict manager: Responsible for select the objects that will be removed;
+* Memory manager: Responsible for the memory management, avoiding syscall to OS;
+* Statistics manager: Responsible for keep object's statistics like hits, misses, fetch, object count, KB in/out per second, new objects, removed objects, and so on…;
+* Core: Responsible for the workflow of the other components, signals treatment and error handler.
