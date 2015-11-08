@@ -39,3 +39,17 @@ Bellow I will put what in my mind :-)
     * Send data to modules' pipeline
     * Send data to cache (storage)
     * Send data to downstream
+
+
+# Tasks
+* Define the possibles module's types and where them can be executed
+  * Some modules can generate content
+  * Some modules can change the content that was read from the upstream
+  * Some modules can change the content that was read from the cache
+  * In specific situations, one module can generate the headers' content or alter them
+  * We cannot forget that headers are the first content that must be sent
+* BDD, TDD, performance tests, stress tests, FDD, …
+* Focus on test since the first line of code!!!!
+* Varnish tools are valuable? It's funny to implement, but they are useful?
+  * varnishlog, varnish top, varnishhist, varnishstat
+* purge?
