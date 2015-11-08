@@ -5,7 +5,7 @@ My goal with this project is to learn Golang. Of course, if someone interesting 
 
 Nowadays, I only started to think about what the project is (and isn't), your basic architecture, planned versions, ...
 
-Bellow I will put what in my mind :-)
+Bellow I put what is in my mind :-)
 
 
 # Planned versions
@@ -21,7 +21,7 @@ Bellow I will put what in my mind :-)
 * Log manager/statistics: is a good idea uses the same approach that varnish? Or it must be considered an improvement?
 * For implement BDD, Must be used Python+Lettuce? Or is better to try a BDD framework specific for Golang? Or there is another approach?
 * Is a good idea to have more than one option to do the storage, log, and so on?
-  * Maybe, based in the config, I can rewrite some code to use a specific storage backend, log system, … With this approach, this project can be used like a framework to construct a personalized proxy cache system :-)
+  * Maybe, based in the config, I can rewrite some code to use a specific storage backend, log system, … With this approach, this project can be used like a framework to construct a custom proxy cache system :-)
 
 # Startup sequence (final version)
 * If the config was changed, generate the source's configuration, compile and build the new proxy binary
@@ -59,7 +59,8 @@ Bellow I will put what in my mind :-)
     .*.youtube.com:	pass
     aabbcc.*		pass
     abcxy.br		-> 192.168.1.2 // proxy
-    // Is it a good approach? Maybe, using a module would be more interesting, but how can I integrate this on the config? Well, a NGX's module can register your tokens in configuration…
+    // Is it a good approach? Maybe, using a module would be more interesting, but how can I integrate this on the config?
+    // Well, a NGX's module can register your tokens in configuration…
     .*			fail // proxy reverso
     .*			accept // proxy ou proxy cache
 
