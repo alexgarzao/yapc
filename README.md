@@ -79,3 +79,30 @@ Components:
 * Memory manager: Responsible for the memory management, avoiding syscall to OS;
 * Statistics manager: Responsible for keep object's statistics like hits, misses, fetch, object count, KB in/out per second, new objects, removed objects, and so on…;
 * Core: Responsible for the workflow of the other components, signals treatment and error handler.
+
+
+# VERSION 1 (PROXY ONLY)
+
+The goal of this version is to have a functional proxy system. Optimizations are not in this scope.
+
+Tasks:
+* Load configuration (Config manager)
+  * Based on rules, without any kind of code generation
+  * Each rule informs if the request will be sent to the upstream, or rejected
+  * Section with common configs like port to bind, IP, ...
+* Bind in the network port (Startup manager)
+* Listen (Startup manager)
+* For each connection request (Requests manager)
+  * Log request
+  * Accept
+  * Read request
+  * Match request in configuration
+  * Send 404 if appropriate
+  * Connect in the upstream
+  * While there is object data
+    * Read object data (max size = 4KB buffer)
+    * Send data to downstream
+* Logs (Permanent log manager)
+* Intercept signals (KILL, STOP, …), error handler, workflow of the components (Core)
+* Tests: BDD, TDD, ...
+
