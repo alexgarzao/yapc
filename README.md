@@ -5,7 +5,7 @@ My goal with this project is to learn Golang. Of course, if someone interesting 
 
 Nowadays, I only started to think about what the project is (and isn't), your basic architecture, planned versions, ...
 
-Bellow I put what is in my mind :-)
+Bellow and at the wiki page there are more information.
 
 
 # Planned versions
