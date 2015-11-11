@@ -8,6 +8,8 @@ import (
     "log"
     "os"
     "net/url"
+    "fmt"
+    "crypto/tls"
 )
 
 
@@ -21,7 +23,7 @@ func TestValidGetRequestToAnExistentObjectWithoutProxying(t *testing.T) {
             md5sum := "ABC123"
 
             Convey("The result code must be 200", func() {
-                So(statusCode, ShouldEqual, 200)
+                So(statusCode, ShouldEqual, http.StatusOK)
             })
 
             Convey("The md5sum must be ABC123", func() {
@@ -42,7 +44,7 @@ func TestValidGetRequestToAnExistentObjectWithProxying(t *testing.T) {
             md5sum := "ABC123"
 
             Convey("The result code must be 200", func() {
-                So(statusCode, ShouldEqual, 200)
+                So(statusCode, ShouldEqual, http.StatusOK)
             })
 
             Convey("The md5sum must be ABC123", func() {
@@ -86,8 +88,16 @@ func getObject(url string) (statusCode int, objectLocation string) {
 
 func getObjectFromProxy(proxyRawUrl, objectUrl string) (statusCode int, objectLocation string) {
     proxyUrl, err := url.Parse(proxyRawUrl)
+    if err != nil {
+        fmt.Println("Bad proxy URL", err)
+        return
+    }
+
     myClient := &http.Client{
-        Transport: &http.Transport{Proxy: http.ProxyURL(proxyUrl)},
+        Transport: &http.Transport{
+            Proxy: http.ProxyURL(proxyUrl),
+            TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, //set ssl
+        },
     }
 
     response, err := myClient.Get(objectUrl)
