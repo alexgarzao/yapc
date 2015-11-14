@@ -16,7 +16,7 @@ import (
 // Test a valid GET request to an existent object without proxying
 func TestValidGetRequestToAnExistentObjectWithoutProxying(t *testing.T) {
     Convey("Given the URL", t, func() {
-        url := "http://github.com/alexgarzao/AWS/raw/master/test/test.ico"
+        url := "http://raw.githubusercontent.com/alexgarzao/yapc/master/README.md"
 
         Convey("When the object is downloaded", func() {
             statusCode, _ := getObject(url)
@@ -37,7 +37,7 @@ func TestValidGetRequestToAnExistentObjectWithoutProxying(t *testing.T) {
 // Test a valid GET request to an existent object with proxying
 func TestValidGetRequestToAnExistentObjectWithProxying(t *testing.T) {
     Convey("Given the URL", t, func() {
-        url := "http://github.com/alexgarzao/AWS/raw/master/test/test.ico"
+        url := "http://raw.githubusercontent.com/alexgarzao/yapc/master/README.md"
 
         Convey("When the object is downloaded", func() {
             statusCode, _ := getObjectFromProxy("http://localhost:8080", url)
@@ -67,7 +67,7 @@ func getObject(url string) (statusCode int, objectLocation string) {
     defer response.Body.Close()
 
     // Open a file for writing.
-    file, err := os.Create("/tmp/test.ico")
+    file, err := os.Create("/tmp/object.download")
     if err != nil {
         log.Fatal(err)
     }
@@ -80,7 +80,7 @@ func getObject(url string) (statusCode int, objectLocation string) {
     file.Close()
 
     statusCode = response.StatusCode
-    objectLocation = "/tmp/test.ico"
+    objectLocation = "/tmp/object.download"
 
     return
 }
@@ -108,7 +108,7 @@ func getObjectFromProxy(proxyRawUrl, objectUrl string) (statusCode int, objectLo
     defer response.Body.Close()
 
     // Open a file for writing.
-    file, err := os.Create("/tmp/test.ico")
+    file, err := os.Create("/tmp/object.download")
     if err != nil {
         log.Fatal(err)
     }
@@ -121,7 +121,7 @@ func getObjectFromProxy(proxyRawUrl, objectUrl string) (statusCode int, objectLo
     file.Close()
 
     statusCode = response.StatusCode
-    objectLocation = "/tmp/test.ico"
+    objectLocation = "/tmp/object.download"
 
     return
 }
