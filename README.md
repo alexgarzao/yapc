@@ -10,5 +10,6 @@ Bellow and at the wiki page there are more information.
 
 # Planned versions
 * Only proxy, with basic access control. With the map configuration will be possible to specifier what can be accessed and what cannot.
-* Proxy + cache
+* Proxy + cache (memory only)
+* Proxy + cache (memory or disk)
 * Transparent caching proxy
