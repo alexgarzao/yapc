@@ -4,9 +4,10 @@ import (
     "fmt"
     "log"
     "net/http"
+    "io"
 )
 
-const listenAddr = "localhost:8080"
+const listenAddr = ":8080"
 
 func main() {
     fmt.Println("Starting YAPC server!")
@@ -22,5 +23,17 @@ func main() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprint(w, "Hello, web")
+    url := r.URL.String()
+    response, err := http.Get(url)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    defer response.Body.Close()
+
+    // Using io.Copy to dump the upstream response to the downstream.
+    _, err = io.Copy(w, response.Body)
+    if err != nil {
+        log.Fatal(err)
+    }
 }
