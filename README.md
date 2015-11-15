@@ -9,7 +9,8 @@ Bellow and at the wiki page there are more information.
 
 
 # Planned versions
-* Only proxy, with basic access control. With the map configuration will be possible to specifier what can be accessed and what cannot.
+* Only proxy. All requests are sent to the upstream. All requests are logged. Signals are intercepted. Initial performance tests. Initial BDD tests. TDD tests.
+* Proxy with basic access control. With the map configuration will be possible to specifier what can be accessed and what cannot.
 * Proxy + cache (memory only)
 * Proxy + cache (memory or disk)
 * Transparent caching proxy
