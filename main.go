@@ -8,13 +8,18 @@ import (
     "net/http"
     "io"
     "time"
+    "os"
+    "os/signal"
+    "syscall"
 )
 
-const listenAddr = ":8080"
+const listenAddr = ":8098"
 
 // Main function. Start http handlers.
 func main() {
     fmt.Println("Starting YAPC server!")
+
+    handleSignals()
 
     http.HandleFunc("/", handler)
 
@@ -24,6 +29,41 @@ func main() {
     }
 
     fmt.Println("Finishing YAPC server!")
+}
+
+// Handle all signals to the process.
+func handleSignals() {
+    signalChannel := make(chan os.Signal, 1)
+    signal.Notify(signalChannel,
+        syscall.SIGINT,
+        syscall.SIGHUP,
+        syscall.SIGTERM,
+        syscall.SIGQUIT,
+        syscall.SIGABRT,
+    )
+
+    go func() {
+        for {
+            signal := <- signalChannel
+
+            fmt.Println()
+            fmt.Println(signal)
+
+            switch signal {
+            case syscall.SIGINT:
+                // Handle SIGINT
+                os.Exit(0)
+            case syscall.SIGHUP:
+                // Handle SIGHUP
+            case syscall.SIGTERM:
+                // Handle SIGTERM
+            case syscall.SIGQUIT:
+                // Handle SIGQUIT
+            case syscall.SIGABRT:
+                // Handle SIGABRT
+            }
+        }
+    }()
 }
 
 // Main handler. Receive a request and proxy them to the upstream.
