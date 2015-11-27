@@ -40,7 +40,7 @@ func TestValidGetRequestToAnExistentObjectWithProxying(t *testing.T) {
         url := "http://raw.githubusercontent.com/alexgarzao/yapc/master/README.md"
 
         Convey("When the object is downloaded", func() {
-            statusCode, _ := getObjectFromProxy("http://localhost:8080", url)
+            statusCode, _, _ := getObjectFromProxy("http://localhost:8098", url)
             md5sum := "ABC123"
 
             Convey("The result code must be 200", func() {
@@ -49,6 +49,38 @@ func TestValidGetRequestToAnExistentObjectWithProxying(t *testing.T) {
 
             Convey("The md5sum must be ABC123", func() {
                 So(md5sum, ShouldEqual, "ABC123")
+            })
+        })
+    })
+}
+
+
+// Test if the first get is a fetch, and the second is a hit.
+func TestIfFirstGetIsFetchAndTheSecondIsHit(t *testing.T) {
+    Convey("Given the object", t, func() {
+        object_url := "http://pbs.twimg.com/profile_images/603610759671611392/JRQtMqMR_normal.png" // Size: 1655 bytes.
+
+        Convey("When the object is downloaded (first time), cache state is a fetch", func() {
+            statusCode, _, cacheState := getObjectFromProxy("http://localhost:8098", object_url)
+
+            Convey("The result code must be 200", func() {
+                So(statusCode, ShouldEqual, http.StatusOK)
+            })
+
+            Convey("Cache state is fetch", func() {
+                So(cacheState, ShouldEqual, "fetch")
+            })
+        })
+
+        Convey("But when the object is downloaded again (second time), cache state is a hit", func() {
+            statusCode, _, cacheState := getObjectFromProxy("http://localhost:8098", object_url)
+
+            Convey("The result code must be 200", func() {
+                So(statusCode, ShouldEqual, http.StatusOK)
+            })
+
+            Convey("Cache state is fetch", func() {
+                So(cacheState, ShouldEqual, "hit")
             })
         })
     })
@@ -86,7 +118,7 @@ func getObject(url string) (statusCode int, objectLocation string) {
 }
 
 
-func getObjectFromProxy(proxyRawUrl, objectUrl string) (statusCode int, objectLocation string) {
+func getObjectFromProxy(proxyRawUrl, objectUrl string) (statusCode int, objectLocation string, cacheState string) {
     proxyUrl, err := url.Parse(proxyRawUrl)
     if err != nil {
         fmt.Println("Bad proxy URL", err)
@@ -106,6 +138,8 @@ func getObjectFromProxy(proxyRawUrl, objectUrl string) (statusCode int, objectLo
     }
 
     defer response.Body.Close()
+
+    cacheState = response.Header.Get("yapc-cache-state")
 
     // Open a file for writing.
     file, err := os.Create("/tmp/object.download")
