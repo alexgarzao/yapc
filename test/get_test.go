@@ -139,7 +139,7 @@ func getObjectFromProxy(proxyRawUrl, objectUrl string) (statusCode int, objectLo
 
     defer response.Body.Close()
 
-    cacheState = response.Header.Get("yapc-cache-state")
+    cacheState = response.Header.Get("Yapc-Cache-State")
 
     // Open a file for writing.
     file, err := os.Create("/tmp/object.download")

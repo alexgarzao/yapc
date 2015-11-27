@@ -87,6 +87,9 @@ func proxyUpstreamRequest(w http.ResponseWriter, r *http.Request) (statusCode in
 
     defer upstreamResponse.Body.Close()
 
+    // Set Yapc-Cache-State header.
+    w.Header().Set("Yapc-Cache-State", "fetch")
+
     // Using io.Copy to dump the upstreamResponse to the downstream.
     upstreamResponseLength, err = io.Copy(w, upstreamResponse.Body)
     if err != nil {
