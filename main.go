@@ -12,8 +12,6 @@ import (
     "syscall"
     "sync"
     "io/ioutil"
-    "crypto/md5"
-    "encoding/hex"
 )
 
 type CacheMemory struct {
@@ -85,7 +83,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
     startTime := time.Now()
 
-    hashKey := createHash(r.URL.String())
+    hashKey := CreateHash(r.URL.String())
 
     // Verify if is a cache hit.
     isHit, statusCode, responseLength, err := verifyIsHit(hashKey, w)
@@ -197,12 +195,4 @@ func logRequest(r *http.Request, upstreamStatusCode int, upstreamResponseLength 
         r.UserAgent(),
         elapsedUpstreamGetTime,
     )
-}
-
-// Create a hash key based on the URL.
-func createHash(objectUrl string) (string) {
-    hash := md5.New()
-    hash.Write([]byte (objectUrl))
-    md := hash.Sum(nil)
-    return hex.EncodeToString(md[:])
 }
